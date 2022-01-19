@@ -38,9 +38,7 @@ In the example below, we have a Kafka cluster with 3 brokers and 2 topics. The t
 
 If a partition leader goes down the ISR (In-Sync Replica) becomes the leader.
 
-
-#### IMAGE 1 ###### 
-
+![Example1](kafka1.png)
 
 If a new topic is created or a broker dies the zookeeper notifies the brokers, by design it operates an odd number of servers (3, 5, 7, 9).
 
@@ -62,9 +60,7 @@ acks = all : It will wait for leader and all replicas (ISR) send the write confi
 ### Idempotent Producer
 Since Kafka version 0.11 we have some parameters to implement an idempotent producer (enable.idempotence equals true, retries equals Integer.MAX_VALUE), it means that if the producer for some reason send the same message twice, the Kafka Broker is able to recognize the duplication based the producer request id and avoid to commit the offset again.
 
-
-#### IMAGE 2 #######
-
+![Example2](kafka2.png)
 
 ### Producer Batch
 If you need to archive better performance with higher amount of messages, you can work with a producer batch, it will wait to send a bulk message.
@@ -82,9 +78,7 @@ For example, if three instances have the same consumer group, then the partition
 
 Also if each consumer instance has different consumer group then the message will be broadcast to all consumers. If you have more consumers than partitions some consumers will be inactive.
 
-
-#### IMAGE 3 #######
-
+![Example3](image3.png)
 
 Kafka stores the offset at which consumer group has been reading, it is kept in a topic named __consumer_offsets.
 
@@ -94,15 +88,11 @@ Consumers can choose to commit the offset using three delivery semantics:
 
 At most once: It only guarantees that the message was received, it is implemented with enable.auto.commit equals true and a auto.commit.interval.ms not too high (default is 5000).
 
-
-#### IMAGE 4 #######
-
+![Example4](image4.png)
 
 At least once: It guarantees that the message was processed, but don’t avoid to receive the same message twice, in this scenario is important implements an idempotent consumer. It is implemented with enable.auto.commit equals false and manual commitSync consumer method.
 
-
-#### IMAGE 5 #######
-
+![Example5](image5.png)
 
 Exactly once: It guarantees that the message will be received only a once and processed only a once, it can be achieved for Kafka workflows using Kafka Stream API.
 
